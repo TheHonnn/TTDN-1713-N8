@@ -379,3 +379,4 @@ class AttendanceLogicService(models.AbstractModel):
             local_start.astimezone(timezone.utc).replace(tzinfo=None),
             local_end.astimezone(timezone.utc).replace(tzinfo=None),
         )
+# DONEEEEEEQ
