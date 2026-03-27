@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+from odoo import http
 
 
 # class NhanSu(http.Controller):
@@ -19,3 +19,8 @@
 #         return http.request.render('nhan_su.object', {
 #             'object': obj
 #         })
+
+
+class NhanSu(http.Controller):
+    pass
+

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+ai_attendance_event_user_read,ai.attendance.event user read,model_ai_attendance_event,base.group_user,1,0,0,0
+ai_attendance_event_manager_full,ai.attendance.event manager full,model_ai_attendance_event,base.group_erp_manager,1,1,1,1
+ai_attendance_event_system_full,ai.attendance.event system full,model_ai_attendance_event,base.group_system,1,1,1,1

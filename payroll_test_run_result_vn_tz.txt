@@ -1,0 +1,8 @@
+---TEST_DAILY_SHEETS---
+SHEET|2026-04-01|status=present|late=0|early=0|base=1.0|deduct=0.0|payable=1.0|note=Bình thường
+SHEET|2026-04-02|status=present|late=10|early=0|base=1.0|deduct=0.25|payable=0.75|note=Đi muộn 10 phút, Trừ 0.25 công theo bậc vi phạm
+SHEET|2026-04-03|status=present|late=0|early=0|base=1.0|deduct=0.0|payable=1.0|note=Đi muộn đã được hợp thức hóa
+---TEST_PAYROLL_LINE---
+LINE|employee=Bùi Thế Hoàng|payable_days=2.75|deducted_days=0.25|present_days=3.0|absent_days=19.0|incomplete_days=0.0|late_minutes=10|salary_amount=3437500.0|bonus=4000000.0|penalty=5720000.0|net=1717500.0
+---CLEANUP---
+CLEANED|attendance,exception,daily_sheets,period_lines_restored

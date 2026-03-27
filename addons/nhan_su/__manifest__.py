@@ -20,11 +20,11 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base', 'web'],
 
     # always loaded
     'data': [
-        
+
         'security/ir.model.access.csv',
         'views/nhan_vien.xml',
         'views/phong_ban.xml',
@@ -35,7 +35,9 @@
         'views/menu.xml',
     ],
     # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
+    'demo': [ ],
+    'installable': True,
+    'application': True,
+    'license': 'LGPL-3',
+
 }

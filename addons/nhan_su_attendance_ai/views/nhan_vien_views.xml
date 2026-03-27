@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_nhan_vien_form_inherit_face_ai" model="ir.ui.view">
+        <field name="name">nhan_vien.form.inherit.face.ai</field>
+        <field name="model">nhan_vien</field>
+        <field name="inherit_id" ref="nhan_su.view_nhan_vien_form"/> 
+        <field name="arch" type="xml">
+            
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button string="Đăng ký FaceID" 
+                            type="object" 
+                            name="action_generate_face_encoding" 
+                            class="oe_highlight"
+                            attrs="{'invisible': [('anh', '=', False)]}"/>
+                </header>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Dữ liệu AI Nhận diện" name="face_ai_tab">
+                    <group>
+                        <group string="Trạng thái">
+                            <field name="is_face_registered" widget="boolean_toggle" readonly="1"/>
+                        </group>
+                        <group string="Kỹ thuật">
+                            <field name="face_encoding" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

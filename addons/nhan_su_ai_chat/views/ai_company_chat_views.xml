@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ─────────────────── List view ─────────────────── -->
+        <record id="nhan_su_ai_chat_tree" model="ir.ui.view">
+            <field name="name">nhan_su.ai.chat.tree</field>
+            <field name="model">nhan_su.ai.chat</field>
+            <field name="arch" type="xml">
+                <tree string="Chat AI Nhân sự" decoration-muted="not message_ids">
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <field name="message_ids" string="Số tin nhắn" widget="many2many_tags" optional="hide"/>
+                    <field name="write_date" string="Cập nhật lần cuối"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ─────────────────── Form view ─────────────────── -->
+        <record id="nhan_su_ai_chat_form" model="ir.ui.view">
+            <field name="name">nhan_su.ai.chat.form</field>
+            <field name="model">nhan_su.ai.chat</field>
+            <field name="arch" type="xml">
+                <form string="Chat AI Nhân sự">
+                    <header>
+                        <button
+                            name="action_open_quick_ask_wizard"
+                            type="object"
+                            string="Hỏi nhanh"
+                            class="btn-primary"
+                            help="Hỏi trực tiếp qua popup, không cần bấm Chỉnh sửa form"
+                        />
+                        <button
+                            name="action_ask"
+                            type="object"
+                            string="Hỏi AI"
+                            class="btn-primary"
+                            help="Gửi câu hỏi bên dưới tới trợ lý AI"
+                        />
+                        <button
+                            name="action_clear"
+                            type="object"
+                            string="Xóa hội thoại"
+                            class="btn-secondary"
+                            confirm="Bạn có chắc muốn xóa toàn bộ cuộc trò chuyện này?"
+                        />
+                        <button
+                            name="action_open_api_config_wizard"
+                            type="object"
+                            string="Cấu hình API"
+                            class="btn-secondary"
+                            help="Thiết lập API URL, API Key và model AI"
+                        />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Tiêu đề cuộc trò chuyện..."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="company_id"/>
+                        </group>
+
+                        <separator string="Lịch sử cuộc trò chuyện"/>
+                        <field
+                            name="conversation_log"
+                            nolabel="1"
+                            readonly="1"
+                            widget="text"
+                            style="min-block-size: 380px; background: #f0f4f8; border-radius: 8px; padding: 14px; font-size: 13.5px; line-height: 1.7; white-space: pre-wrap; font-family: inherit;"
+                        />
+
+                        <separator string="Câu hỏi của bạn"/>
+                        <group col="12">
+                            <field
+                                name="user_input"
+                                nolabel="1"
+                                colspan="10"
+                                placeholder="Ví dụ: Công ty có bao nhiêu nhân viên phòng kế toán? Ca làm việc từ mấy giờ? Quy định đi muộn như thế nào?..."
+                            />
+                            <button
+                                name="action_ask"
+                                type="object"
+                                string="Hỏi"
+                                class="btn-primary"
+                                colspan="2"
+                            />
+                        </group>
+                        <div class="text-muted" style="font-size:12px; margin-block-start: -8px; margin-block-end: 12px;">
+                            Bạn có thể bấm nút <strong>Hỏi</strong> ngay cạnh ô câu hỏi, hoặc dùng <strong>Hỏi nhanh</strong> trên header khi không muốn vào chế độ chỉnh sửa.
+                        </div>
+
+                        <!-- Message log (reference tab) -->
+                        <notebook>
+                            <page string="Tin nhắn chi tiết">
+                                <field name="message_ids" readonly="1">
+                                    <tree
+                                        string="Lịch sử tin nhắn"
+                                        decoration-info="role == 'assistant'"
+                                        decoration-muted="role == 'user'"
+                                    >
+                                        <field name="role" string="Người gửi" width="100px"/>
+                                        <field name="content" string="Nội dung"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ─────────────────── Action ─────────────────── -->
+        <record id="action_nhan_su_ai_chat" model="ir.actions.act_window">
+            <field name="name">Trợ lý AI Nhân sự</field>
+            <field name="res_model">nhan_su.ai.chat</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Bắt đầu cuộc trò chuyện mới với trợ lý AI về nhân sự công ty bạn.
+                </p>
+                <p>
+                    AI sẽ đọc dữ liệu nhân viên, phòng ban, ca làm việc và quy định chấm công
+                    để trả lời các câu hỏi của bạn bằng tiếng Việt.
+                </p>
+            </field>
+        </record>
+
+        <!-- ─────────────────── Wizard: Hỏi nhanh ─────────────────── -->
+        <record id="nhan_su_ai_chat_quick_ask_wizard_form" model="ir.ui.view">
+            <field name="name">nhan_su.ai.chat.quick.ask.wizard.form</field>
+            <field name="model">nhan_su.ai.chat.quick.ask.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Hỏi nhanh AI">
+                    <sheet>
+                        <group>
+                            <field name="chat_id" readonly="1"/>
+                            <field name="question" placeholder="Nhập câu hỏi rồi bấm Gửi..."/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_send_question" type="object" string="Gửi" class="btn-primary"/>
+                        <button string="Hủy" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- ─────────────────── Wizard: Cấu hình API ─────────────────── -->
+        <record id="nhan_su_ai_chat_api_config_wizard_form" model="ir.ui.view">
+            <field name="name">nhan_su.ai.chat.api.config.wizard.form</field>
+            <field name="model">nhan_su.ai.chat.api.config.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cấu hình API Chat AI">
+                    <sheet>
+                        <group>
+                            <field name="api_url" placeholder="Ví dụ: https://api.openai.com/v1/chat/completions"/>
+                            <field name="api_key" password="True" placeholder="Nhập API Key"/>
+                            <field name="ai_model"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_save_api_config" type="object" string="Lưu cấu hình" class="btn-primary"/>
+                        <button string="Hủy" special="cancel" class="btn-secondary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- ─────────────────── Menu ─────────────────── -->
+        <menuitem
+            id="menu_nhan_su_ai_chat"
+            name="Chat box AI"
+            action="action_nhan_su_ai_chat"
+            sequence="95"
+            web_icon="nhan_su_attendance_ai,static/description/icon.png"
+        />
+
+    </data>
+</odoo>

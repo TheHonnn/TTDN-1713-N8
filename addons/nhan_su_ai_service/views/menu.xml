@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Views -->
+    <record id="view_ai_request_log_tree" model="ir.ui.view">
+        <field name="name">ai.request.log tree</field>
+        <field name="model">ai.request.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="created_at"/>
+                <field name="request_id"/>
+                <field name="endpoint"/>
+                <field name="employee_code"/>
+                <field name="nhan_vien_id"/>
+                <field name="employee_id"/>
+                <field name="status"/>
+                <field name="processing_time"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="view_ai_request_log_form" model="ir.ui.view">
+        <field name="name">ai.request.log form</field>
+        <field name="model">ai.request.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="request_id"/>
+                            <field name="endpoint"/>
+                            <field name="ip_address"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                            <field name="created_at"/>
+                            <field name="processing_time"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="employee_code"/>
+                            <field name="nhan_vien_id"/>
+                            <field name="employee_id"/>
+                        </group>
+                        <group>
+                            <field name="request_timestamp"/>
+                            <field name="attendance_event_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Request">
+                            <field name="request_payload" nolabel="1"/>
+                        </page>
+                        <page string="Response">
+                            <field name="response_payload" nolabel="1"/>
+                        </page>
+                        <page string="Error" attrs="{'invisible': [('status', 'not in', ['error', 'validation_error'])]}">
+                            <field name="error_message" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="view_ai_request_log_search" model="ir.ui.view">
+        <field name="name">ai.request.log search</field>
+        <field name="model">ai.request.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="request_id"/>
+                <field name="employee_code"/>
+                <field name="nhan_vien_id"/>
+                <field name="status"/>
+                <filter name="success" domain="[('status', '=', 'success')]" string="Success"/>
+                <filter name="error" domain="[('status', 'in', ['error', 'validation_error'])]" string="Error"/>
+                <filter name="duplicate" domain="[('status', '=', 'duplicate')]" string="Duplicate"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_ai_request_logs" model="ir.actions.act_window">
+        <field name="name">Nhật ký API</field>
+        <field name="res_model">ai.request.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_ai_request_log_search"/>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem
+        id="menu_ai_request_logs"
+        name="Nhật ký API"
+        parent="nhan_su_attendance_ai.menu_ai_attendance_root"
+        action="action_ai_request_logs"
+        sequence="20"/>
+</odoo>

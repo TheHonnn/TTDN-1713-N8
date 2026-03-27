@@ -1,0 +1,17 @@
+48256 python odoo-bin -c odoo.conf
+49110 python odoo-bin -c odoo.conf
+51146 python odoo-bin -c odoo.conf
+51626 python odoo-bin -c odoo.conf --http-port=8070
+53247 python odoo-bin -c odoo.conf --http-port=8070
+53559 python odoo-bin -c odoo.conf --http-port=8070
+53784 python odoo-bin -c odoo.conf --http-port=8071
+53975 python odoo-bin -c odoo.conf --http-port=8072
+54559 python odoo-bin -c odoo.conf --http-port=8073
+55655 python odoo-bin -c odoo.conf
+56349 python odoo-bin -c odoo.conf --http-port=8074
+56769 python odoo-bin -c odoo.conf --http-port=8075
+58652 python odoo-bin -c odoo.conf --http-port=8074
+59057 python odoo-bin -c odoo.conf --http-port=18074
+59515 python odoo-bin -c odoo.conf --http-port=18075
+61552 python odoo-bin -c odoo.conf --http-port=18076
+96410 /home/buih7/odoo-venv/bin/python odoo-bin -c odoo.conf

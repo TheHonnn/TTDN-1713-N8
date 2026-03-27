@@ -1,0 +1,5 @@
+ id | nhan_vien_id | chuc_vu_id | phong_ban_id | loai_chuc_vu | ngay_bat_dau | ngay_ket_thuc | trang_thai 
+----+--------------+------------+--------------+--------------+--------------+---------------+------------
+  1 |            3 |          2 |            2 | Chính        | 2026-03-03   |               | Đang giữ
+(1 row)
+

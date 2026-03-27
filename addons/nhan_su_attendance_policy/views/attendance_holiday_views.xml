@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="attendance_holiday_tree" model="ir.ui.view">
+            <field name="name">attendance.holiday.tree</field>
+            <field name="model">attendance.holiday</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="holiday_type"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="attendance_holiday_form" model="ir.ui.view">
+            <field name="name">attendance.holiday.form</field>
+            <field name="model">attendance.holiday</field>
+            <field name="arch" type="xml">
+                <form string="Ngày nghỉ chuẩn">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="holiday_type"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="note" nolabel="1" colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_attendance_holiday" model="ir.actions.act_window">
+            <field name="name">Ngày nghỉ chuẩn</field>
+            <field name="res_model">attendance.holiday</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_attendance_holiday" name="Ngày nghỉ chuẩn"
+                  parent="nhan_su_attendance_ai.menu_ai_attendance_root" sequence="36"
+                  action="action_attendance_holiday"/>
+    </data>
+</odoo>

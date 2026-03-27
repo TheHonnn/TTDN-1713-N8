@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="attendance_exception_request_tree" model="ir.ui.view">
+            <field name="name">attendance.exception.request.tree</field>
+            <field name="model">attendance.exception.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="request_date"/>
+                    <field name="nhan_vien_id"/>
+                    <field name="justify_late"/>
+                    <field name="justify_early"/>
+                    <field name="justify_absence"/>
+                    <field name="is_paid_leave"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="attendance_exception_request_form" model="ir.ui.view">
+            <field name="name">attendance.exception.request.form</field>
+            <field name="model">attendance.exception.request</field>
+            <field name="arch" type="xml">
+                <form string="Đơn ngoại lệ chấm công">
+                    <header>
+                        <button name="action_approve" string="Duyệt" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_reject" string="Từ chối" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_reset_draft" string="Về nháp" type="object" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,approved,rejected"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="nhan_vien_id"/>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="request_date"/>
+                            </group>
+                            <group>
+                                <field name="justify_late"/>
+                                <field name="justify_early"/>
+                                <field name="justify_absence"/>
+                                <field name="is_paid_leave" attrs="{'invisible': [('justify_absence', '=', False)]}"/>
+                            </group>
+                        </group>
+                        <group string="Khung giờ dự kiến">
+                            <field name="requested_check_in" widget="float_time"/>
+                            <field name="requested_check_out" widget="float_time"/>
+                        </group>
+                        <group>
+                            <field name="reason" nolabel="1" colspan="4"/>
+                        </group>
+                        <group string="Phê duyệt" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <field name="approved_by" readonly="1"/>
+                            <field name="approved_date" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="attendance_exception_request_search" model="ir.ui.view">
+            <field name="name">attendance.exception.request.search</field>
+            <field name="model">attendance.exception.request</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="nhan_vien_id"/>
+                    <field name="request_date"/>
+                    <filter name="approved" string="Đã duyệt" domain="[('state', '=', 'approved')]"/>
+                    <filter name="draft" string="Nháp" domain="[('state', '=', 'draft')]"/>
+                    <filter name="absence" string="Xin nghỉ" domain="[('justify_absence', '=', True)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_attendance_exception_request" model="ir.actions.act_window">
+            <field name="name">Đơn ngoại lệ chấm công</field>
+            <field name="res_model">attendance.exception.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="attendance_exception_request_search"/>
+        </record>
+
+        <menuitem id="menu_attendance_exception_request" name="Ngoại lệ chấm công"
+                  parent="nhan_su_attendance_ai.menu_ai_attendance_root" sequence="35"
+                  action="action_attendance_exception_request"/>
+    </data>
+</odoo>

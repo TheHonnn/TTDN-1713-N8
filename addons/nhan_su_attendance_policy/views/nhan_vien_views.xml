@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_nhan_vien_form_inherit_attendance_shift" model="ir.ui.view">
+            <field name="name">nhan_vien.form.inherit.attendance.shift</field>
+            <field name="model">nhan_vien</field>
+            <field name="inherit_id" ref="nhan_su.view_nhan_vien_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//field[@name='chuc_vu_id']" position="after">
+                    <field name="company_id" invisible="1"/>
+                    <field name="shift_id" options="{'no_create_edit': False}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_nhan_vien_tree_inherit_attendance_shift" model="ir.ui.view">
+            <field name="name">nhan_vien.tree.inherit.attendance.shift</field>
+            <field name="model">nhan_vien</field>
+            <field name="inherit_id" ref="nhan_su.view_nhan_vien_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='phong_ban_id']" position="after">
+                    <field name="company_id" invisible="1"/>
+                    <field name="shift_id" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_nhan_vien_search_inherit_attendance_shift" model="ir.ui.view">
+            <field name="name">nhan_vien.search.inherit.attendance.shift</field>
+            <field name="model">nhan_vien</field>
+            <field name="inherit_id" ref="nhan_su.nhan_vien_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/field[@name='chuc_vu_id']" position="after">
+                    <field name="shift_id"/>
+                </xpath>
+                <xpath expr="//search" position="inside">
+                    <separator/>
+                    <filter name="without_shift" string="Chưa gán ca" domain="[('shift_id', '=', False)]"/>
+                    <group expand="0" string="Nhóm theo">
+                        <filter name="group_shift" string="Ca làm việc" context="{'group_by': 'shift_id'}"/>
+                        <filter name="group_department" string="Phòng ban" context="{'group_by': 'phong_ban_id'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_nhan_vien_shift_assignment" model="ir.actions.act_window">
+            <field name="name">Gán ca nhân viên</field>
+            <field name="res_model">shift.assignment.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_shift_assignment_wizard_form"/>
+            <field name="target">new</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Chọn phòng ban, chọn nhân viên và chọn ca làm việc để gán hàng loạt theo đúng nghiệp vụ.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_nhan_vien_shift_assignment"
+                  name="Gán ca nhân viên"
+                  parent="nhan_su.menu_root"
+                  sequence="2"
+                  action="action_nhan_vien_shift_assignment"/>
+
+    </data>
+</odoo>

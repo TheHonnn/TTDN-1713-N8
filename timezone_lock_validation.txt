@@ -1,0 +1,9 @@
+CONFIG_TZ Asia/Saigon
+USER_TZ Europe/Brussels
+---TEST_DAILY_SHEETS---
+SHEET|2026-04-01|late=0|early=0|deduct=0.0|payable=1.0|note=Bình thường
+SHEET|2026-04-02|late=10|early=0|deduct=0.25|payable=0.75|note=Đi muộn 10 phút, Trừ 0.25 công theo bậc vi phạm
+SHEET|2026-04-03|late=0|early=0|deduct=0.0|payable=1.0|note=Đi muộn đã được hợp thức hóa
+---TEST_PAYROLL_LINE---
+LINE|payable_days=2.75|deducted_days=0.25|late_minutes=10
+CLEANED

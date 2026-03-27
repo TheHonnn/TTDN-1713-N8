@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_attendance_rule_user,attendance.rule.user,model_attendance_rule,base.group_user,1,1,1,1
+access_attendance_rule_penalty_user,attendance.rule.penalty.user,model_attendance_rule_penalty,base.group_user,1,1,1,1
+access_attendance_exception_request_user,attendance.exception.request.user,model_attendance_exception_request,base.group_user,1,1,1,1
+access_attendance_holiday_user,attendance.holiday.user,model_attendance_holiday,base.group_user,1,1,1,1
+access_daily_sheet_user,daily.sheet.user,model_daily_sheet,base.group_user,1,1,1,1
+access_shift_assignment_wizard_user,shift.assignment.wizard.user,model_shift_assignment_wizard,base.group_user,1,1,1,1
+access_attendance_rule_import_user,attendance.rule.import.user,model_attendance_rule_import,base.group_user,1,1,1,1
+access_attendance_rule_import_review_wizard_user,attendance.rule.import.review.wizard.user,model_attendance_rule_import_review_wizard,base.group_user,1,1,1,1
+access_attendance_rule_import_review_penalty_user,attendance.rule.import.review.penalty.user,model_attendance_rule_import_review_penalty,base.group_user,1,1,1,1

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_employee_form_inherit_attendance_shift" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit.attendance.shift</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='public']//field[@name='resource_calendar_id']" position="after">
+                    <field name="shift_id" options="{'no_create_edit': False}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_employee_tree_inherit_attendance_shift" model="ir.ui.view">
+            <field name="name">hr.employee.tree.inherit.attendance.shift</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='department_id']" position="after">
+                    <field name="shift_id" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_employee_filter_inherit_attendance_shift" model="ir.ui.view">
+            <field name="name">hr.employee.search.inherit.attendance.shift</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/field[@name='job_id']" position="after">
+                    <field name="shift_id"/>
+                </xpath>
+                <xpath expr="//search/filter[@name='inactive']" position="before">
+                    <filter name="without_shift" string="Chưa gán ca" domain="[('shift_id', '=', False)]"/>
+                </xpath>
+                <xpath expr="//search/group" position="inside">
+                    <filter name="group_shift" string="Ca làm việc" domain="[]" context="{'group_by': 'shift_id'}"/>
+                </xpath>
+                <xpath expr="//search/searchpanel/field[@name='department_id']" position="after">
+                    <field name="shift_id" icon="fa-clock-o" enable_counters="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_employee_shift_assignment" model="ir.actions.act_window">
+            <field name="name">Gán ca nhân viên</field>
+                <field name="res_model">shift.assignment.wizard</field>
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="view_shift_assignment_wizard_form"/>
+                <field name="target">new</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                        Chọn phòng ban, chọn nhân viên và chọn ca làm việc để gán hàng loạt theo đúng nghiệp vụ.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_employee_shift_assignment" name="Gán ca nhân viên"
+                  parent="nhan_su_attendance_ai.menu_ai_attendance_root" sequence="35"
+                  action="action_employee_shift_assignment"/>
+
+    </data>
+</odoo>

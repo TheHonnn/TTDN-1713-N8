@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- SEARCH VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="ai_attendance_event_search" model="ir.ui.view">
+            <field name="name">ai.attendance.event.search</field>
+            <field name="model">ai.attendance.event</field>
+            <field name="arch" type="xml">
+                <search string="Sự kiện chấm công AI">
+                    
+                    <!-- FILTERS -->
+                    <filter name="filter_check_in" string="Vào ca" domain="[('check_type', '=', 'check_in')]"/>
+                    <filter name="filter_check_out" string="Ra ca" domain="[('check_type', '=', 'check_out')]"/>
+                    <separator/>
+                    
+                    <filter name="filter_late" string="Đi muộn" domain="[('is_late', '=', True)]"/>
+                    <filter name="filter_early" string="Về sớm" domain="[('is_early', '=', True)]"/>
+                    <separator/>
+                    
+                    <filter name="filter_success" string="Thành công" domain="[('status', '=', 'success')]"/>
+                    <filter name="filter_duplicate" string="Trùng lặp" domain="[('status', '=', 'duplicate')]"/>
+                    <filter name="filter_flagged" string="Cần xem lại" domain="[('is_flagged', '=', True)]"/>
+                    <separator/>
+                    
+                    <!-- FIELDS -->
+                    <field name="nhan_vien_id"/>
+                    <field name="timestamp"/>
+                    <field name="status"/>
+                    <field name="check_type"/>
+                    
+                    <!-- GROUPBY -->
+                    <group expand="0" string="Nhóm theo">
+                        <filter name="group_employee" string="Nhân viên" context="{'group_by': 'nhan_vien_id'}"/>
+                        <filter name="group_check_type" string="Loại chấm công" context="{'group_by': 'check_type'}"/>
+                        <filter name="group_status" string="Trạng thái" context="{'group_by': 'status'}"/>
+                        <filter name="group_date" string="Ngày" context="{'group_by': 'timestamp:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- TREE VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="ai_attendance_event_tree" model="ir.ui.view">
+            <field name="name">ai.attendance.event.tree</field>
+            <field name="model">ai.attendance.event</field>
+            <field name="arch" type="xml">
+                <tree string="Sự kiện chấm công AI" decoration-danger="is_flagged" decoration-warning="is_late or is_early">
+                    <field name="nhan_vien_id"/>
+                    <field name="timestamp"/>
+                    <field name="check_type"/>
+                    <field name="confidence" widget="float"/>
+                    <field name="is_late"/>
+                    <field name="is_early"/>
+                    <field name="status" widget="badge"/>
+                    <field name="is_flagged"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- FORM VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="ai_attendance_event_form" model="ir.ui.view">
+            <field name="name">ai.attendance.event.form</field>
+            <field name="model">ai.attendance.event</field>
+            <field name="arch" type="xml">
+                <form string="Sự kiện chấm công AI">
+                    
+                    <header>
+                        <button name="sync_to_hr_attendance" type="object" string="Đồng bộ sang chấm công" 
+                                class="oe_highlight"/>
+                        <button name="flag_for_review" type="object" string="Đánh dấu xem lại"/>
+                    </header>
+                    
+                    <sheet>
+                        
+                        <!-- TOP INFO -->
+                        <div class="oe_title">
+                            <h1>
+                                <field name="employee_id" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <!-- MAIN SECTION -->
+                        <group>
+                            <group string="Thông tin nhân viên">
+                                <field name="nhan_vien_id" readonly="1"/>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="timestamp" readonly="1"/>
+                            </group>
+                            
+                            <group string="Trạng thái sự kiện">
+                                <field name="check_type" readonly="1"/>
+                                <field name="status" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <!-- RECOGNITION DATA -->
+                        <group string="Dữ liệu nhận diện khuôn mặt">
+                            <group>
+                                <field name="confidence"/>
+                                <field name="distance"/>
+                                <field name="camera_source"/>
+                            </group>
+                            
+                            <group>
+                                <field name="is_late"/>
+                                <field name="is_early"/>
+                            </group>
+                        </group>
+                        
+                        <!-- FLAG INFO -->
+                        <group string="Thông tin đánh dấu" attrs="{'invisible': [('is_flagged', '=', False)]}">
+                            <field name="is_flagged"/>
+                            <field name="flag_reason"/>
+                        </group>
+                        
+                        <!-- NOTES -->
+                        <notebook>
+                            <page string="Thông tin bổ sung">
+                                <group>
+                                    <field name="notes"/>
+                                    <field name="request_id"/>
+                                    <field name="attendance_id"/>
+                                </group>
+                            </page>
+                            
+                            <page string="Ảnh nhận diện" attrs="{'invisible': [('image_base64', '=', False)]}">
+                                <group>
+                                    <field name="image_base64" widget="image" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                        
+                    </sheet>
+                    
+                </form>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

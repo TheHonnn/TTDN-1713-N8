@@ -1,0 +1,1 @@
+{"jsonrpc": "2.0", "id": null, "result": {"status": "success", "employee_id": 3, "employee_code": "003", "employee_name": "B\u00f9i Th\u1ebf Ho\u00e0ng", "event_id": 15, "check_type": "check_out", "timestamp": "2026-03-26T14:43:22+07:00", "is_late": false, "message": "Check-check_out recorded successfully", "log_id": 17}}

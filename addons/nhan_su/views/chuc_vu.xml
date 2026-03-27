@@ -9,7 +9,7 @@
                     <sheet>
                         <div class="oe_read_only" style="font-size:25px">Chức vụ</div>
                         <group col="4" string="Thông tin chung">
-                            <field name="ma_chuc_vu"/>
+                            <field name="ma_chuc_vu" placeholder="Tự sinh từ tên chức vụ nếu để trống"/>
                             <field name="ten_chuc_vu"/>
                         </group>
                     </sheet>

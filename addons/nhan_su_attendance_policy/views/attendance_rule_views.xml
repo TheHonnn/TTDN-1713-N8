@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- SEARCH VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="attendance_rule_search" model="ir.ui.view">
+            <field name="name">attendance.rule.search</field>
+            <field name="model">attendance.rule</field>
+            <field name="arch" type="xml">
+                <search string="Ca làm việc">
+                    <filter name="filter_active" string="Đang áp dụng" domain="[('active', '=', True)]"/>
+                    <filter name="filter_default" string="Mặc định" domain="[('is_default', '=', True)]"/>
+                    <separator/>
+                    <field name="shift_name"/>
+                    <field name="company_id"/>
+                    <field name="is_default"/>
+                </search>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- TREE VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="attendance_rule_tree" model="ir.ui.view">
+            <field name="name">attendance.rule.tree</field>
+            <field name="model">attendance.rule</field>
+            <field name="arch" type="xml">
+                <tree string="Ca làm việc">
+                    <field name="shift_name"/>
+                    <field name="company_id"/>
+                    <field name="start_time" widget="float_time"/>
+                    <field name="end_time" widget="float_time"/>
+                    <field name="allow_late_minutes"/>
+                    <field name="saturday_work"/>
+                    <field name="sunday_work"/>
+                    <field name="daily_hours"/>
+                    <field name="is_default"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- FORM VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="attendance_rule_form" model="ir.ui.view">
+            <field name="name">attendance.rule.form</field>
+            <field name="model">attendance.rule</field>
+            <field name="arch" type="xml">
+                <form string="Ca làm việc">
+                    
+                    <sheet>
+                        
+                        <!-- TITLE -->
+                        <div class="oe_title">
+                            <h1>
+                                <field name="shift_name" placeholder="Ví dụ: Ca hành chính, 8:30-17:00"/>
+                            </h1>
+                        </div>
+                        
+                        <!-- MAIN -->
+                        <group>
+                            <group string="Trạng thái">
+                                <field name="company_id"/>
+                                <field name="active"/>
+                                <field name="is_default"/>
+                            </group>
+                            
+                            <group string="Mô tả">
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        
+                        <!-- WORKING HOURS -->
+                        <group string="Thời gian làm việc">
+                            <group>
+                                <field name="start_time" widget="float_time"/>
+                                <field name="end_time" widget="float_time"/>
+                                <field name="break_duration"/>
+                            </group>
+                            
+                            <group>
+                                <field name="daily_hours" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <!-- ALLOWANCES -->
+                        <group string="Dung sai cho phép">
+                            <group>
+                                <field name="allow_late_minutes"/>
+                                <field name="allow_early_minutes"/>
+                            </group>
+                        </group>
+
+                        <group string="Lịch làm việc chuẩn">
+                            <group>
+                                <field name="monday_work"/>
+                                <field name="tuesday_work"/>
+                                <field name="wednesday_work"/>
+                                <field name="thursday_work"/>
+                            </group>
+                            <group>
+                                <field name="friday_work"/>
+                                <field name="saturday_work"/>
+                                <field name="sunday_work"/>
+                            </group>
+                        </group>
+
+                        <group string="Bậc trừ công theo vi phạm">
+                            <field name="penalty_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="violation_type"/>
+                                    <field name="min_minutes"/>
+                                    <field name="max_minutes"/>
+                                    <field name="deduct_work_day"/>
+                                    <field name="note"/>
+                                </tree>
+                            </field>
+                        </group>
+                        
+                        <!-- NOTES -->
+                        <group>
+                            <field name="notes" nolabel="1" colspan="4"/>
+                        </group>
+                        
+                    </sheet>
+                    
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_attendance_rule" model="ir.actions.act_window">
+            <field name="name">Ca làm việc</field>
+            <field name="res_model">attendance.rule</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="attendance_rule_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Tạo mới ca làm việc hoặc quy tắc chấm công
+                </p>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

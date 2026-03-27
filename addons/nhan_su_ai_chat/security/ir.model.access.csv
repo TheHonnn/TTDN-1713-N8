@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nhan_su_ai_chat_user,nhan_su.ai.chat.user,model_nhan_su_ai_chat,base.group_user,1,1,1,1
+access_nhan_su_ai_chat_message_user,nhan_su.ai.chat.message.user,model_nhan_su_ai_chat_message,base.group_user,1,1,1,1
+access_nhan_su_ai_chat_quick_ask_wizard_user,nhan_su.ai.chat.quick.ask.wizard.user,model_nhan_su_ai_chat_quick_ask_wizard,base.group_user,1,1,1,1
+access_nhan_su_ai_chat_api_config_wizard_user,nhan_su.ai.chat.api.config.wizard.user,model_nhan_su_ai_chat_api_config_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,14 @@
+{
+  "EMP001": {
+    "name": "Nguyễn Văn A",
+    "employee_id": 1
+  },
+  "EMP002": {
+    "name": "Trần Thị B",
+    "employee_id": 2
+  },
+  "EMP003": {
+    "name": "Phạm Văn C",
+    "employee_id": 3
+  }
+}

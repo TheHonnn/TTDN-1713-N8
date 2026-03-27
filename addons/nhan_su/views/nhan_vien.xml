@@ -21,7 +21,7 @@
                             <field name="so_dien_thoai"/>
                             <field name="phong_ban_id"/>
                             <field name="chuc_vu_id"/>
-                            <field name="anh" widget="image" class="oe_avatar"/>
+                            <field name="anh" widget="image" class="oe_avatar" options="{'preview_image': 'anh'}"/>
                         </group>
                         <notebook>
                             <page string="Danh sách lịch sử công tác">

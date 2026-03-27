@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- SEARCH VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="daily_sheet_search" model="ir.ui.view">
+            <field name="name">daily.sheet.search</field>
+            <field name="model">daily.sheet</field>
+            <field name="arch" type="xml">
+                <search string="Bảng công ngày">
+                    <filter name="filter_present" string="Có mặt" domain="[('status', '=', 'present')]"/>
+                    <filter name="filter_absent" string="Vắng mặt" domain="[('status', '=', 'absent')]"/>
+                    <filter name="filter_incomplete" string="Thiếu dữ liệu" domain="[('status', '=', 'incomplete')]"/>
+                    <filter name="filter_leave" string="Nghỉ phép" domain="[('status', '=', 'on_leave')]"/>
+                    <filter name="filter_holiday" string="Ngày nghỉ" domain="[('status', '=', 'holiday')]"/>
+                    <separator/>
+                    <filter name="filter_late" string="Đi muộn" domain="[('is_late', '=', True)]"/>
+                    <filter name="filter_early" string="Về sớm" domain="[('is_early', '=', True)]"/>
+                    <filter name="filter_exception" string="Có ngoại lệ" domain="[('is_exception_approved', '=', True)]"/>
+                    <separator/>
+                    <field name="nhan_vien_id"/>
+                    <field name="work_date"/>
+                    <field name="status"/>
+                    <group expand="0" string="Nhóm theo">
+                        <filter name="group_employee" string="Nhân viên" context="{'group_by': 'nhan_vien_id'}"/>
+                        <filter name="group_date" string="Ngày" context="{'group_by': 'work_date:day'}"/>
+                        <filter name="group_status" string="Trạng thái" context="{'group_by': 'status'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- TREE VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="daily_sheet_tree" model="ir.ui.view">
+            <field name="name">daily.sheet.tree</field>
+            <field name="model">daily.sheet</field>
+            <field name="arch" type="xml">
+                <tree string="Bảng công ngày" 
+                      decoration-danger="is_late or is_early" 
+                      decoration-warning="status == 'incomplete'">
+                    <field name="nhan_vien_id"/>
+                    <field name="work_date"/>
+                    <field name="shift_id"/>
+                    <field name="check_in"/>
+                    <field name="check_out"/>
+                    <field name="hours_worked"/>
+                    <field name="is_late"/>
+                    <field name="is_early"/>
+                    <field name="payable_work_day"/>
+                    <field name="status" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- FORM VIEW -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="daily_sheet_form" model="ir.ui.view">
+            <field name="name">daily.sheet.form</field>
+            <field name="model">daily.sheet</field>
+            <field name="arch" type="xml">
+                <form string="Chi tiết bảng công ngày">
+                    
+                    <header>
+                        <button name="action_generate_sheet" type="object" string="Tạo lại bảng công" class="oe_highlight"/>
+                    </header>
+                    
+                    <sheet>
+                        
+                        <!-- TOP INFO -->
+                        <div class="oe_title">
+                            <h1>
+                                <field name="nhan_vien_id" readonly="1"/>
+                                <field name="work_date" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <!-- MAIN -->
+                        <group>
+                            <group string="Nhân viên và ca làm việc">
+                                <field name="nhan_vien_id" readonly="1"/>
+                                <field name="employee_id" readonly="1"/>
+                                <field name="work_date" readonly="1"/>
+                                <field name="shift_id" readonly="1"/>
+                            </group>
+                            
+                            <group string="Trạng thái">
+                                <field name="status" widget="badge" readonly="1"/>
+                                <field name="day_type" readonly="1"/>
+                                <field name="holiday_id" readonly="1"/>
+                                <field name="exception_request_id" readonly="1"/>
+                                <field name="notes" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <!-- ATTENDANCE DATA -->
+                        <group string="Thời gian vào ra">
+                            <group>
+                                <field name="check_in" readonly="1"/>
+                                <field name="check_out" readonly="1"/>
+                            </group>
+                            
+                            <group>
+                                <field name="hours_worked" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                        <!-- POLICY MONITORING -->
+                        <group string="Theo dõi vi phạm">
+                            <group>
+                                <field name="is_late" readonly="1"/>
+                                <field name="minutes_late" readonly="1"/>
+                                <field name="base_work_day" readonly="1"/>
+                            </group>
+                            
+                            <group>
+                                <field name="is_early" readonly="1"/>
+                                <field name="minutes_early" readonly="1"/>
+                                <field name="deduction_work_day" readonly="1"/>
+                                <field name="payable_work_day" readonly="1"/>
+                            </group>
+                        </group>
+                        
+                    </sheet>
+                    
+                </form>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- WINDOW ACTION -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="action_daily_sheet" model="ir.actions.act_window">
+            <field name="name">Bảng công ngày</field>
+            <field name="res_model">daily.sheet</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="daily_sheet_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_filter_present': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Bảng công ngày được tạo tự động từ dữ liệu chấm công vào và ra.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- MENUS -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+
+        <menuitem id="menu_attendance_rule" name="Ca làm việc"
+                  parent="nhan_su_attendance_ai.menu_ai_attendance_root" sequence="30"
+                  action="action_attendance_rule"/>
+
+        <menuitem id="menu_daily_sheet" name="Bảng công ngày"
+                  parent="nhan_su_attendance_ai.menu_ai_attendance_root" sequence="40"
+                  action="action_daily_sheet"/>
+        
+    </data>
+</odoo>

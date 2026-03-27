@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_payroll_employee_line" model="ir.actions.report">
+            <field name="name">Phiếu lương nhân sự</field>
+            <field name="model">payroll.employee.line</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">nhan_su_payroll.report_payroll_employee_line_document</field>
+            <field name="report_file">nhan_su_payroll.report_payroll_employee_line_document</field>
+            <field name="print_report_name">'Phieu_luong_%s_%s_%s' % (object.nhan_vien_id.ma_dinh_danh or 'NV', object.period_id.month, object.period_id.year)</field>
+        </record>
+
+        <template id="report_payroll_employee_line_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="line">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2 style="margin-block-end: 12px;">Phiếu lương nhân sự</h2>
+                            <p><strong>Kỳ lương:</strong> <span t-esc="line.period_id.month"/>/<span t-esc="line.period_id.year"/></p>
+                            <p><strong>Nhân sự:</strong> <span t-esc="line.nhan_vien_id.ho_va_ten"/></p>
+                            <p><strong>Mã định danh:</strong> <span t-esc="line.nhan_vien_id.ma_dinh_danh"/></p>
+                            <p><strong>Chức vụ:</strong> <span t-esc="line.chuc_vu_id.ten_chuc_vu or line.chuc_vu_id.display_name"/></p>
+
+                            <table class="table table-sm o_main_table" style="inline-size: 100%; border-collapse: collapse; margin-block-start: 18px;">
+                                <thead>
+                                    <tr>
+                                        <th style="border: 1px solid #ccc; padding: 8px; text-align: start;">Khoản mục</th>
+                                        <th style="border: 1px solid #ccc; padding: 8px; text-align: end;">Giá trị</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;">Lương cơ bản tháng</td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><span t-esc="'{:,.0f}'.format(line.base_salary or 0.0).replace(',', '.')"/> VND</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;">Lương theo công</td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><span t-esc="'{:,.0f}'.format(line.salary_amount or 0.0).replace(',', '.')"/> VND</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;">Thưởng</td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><span t-esc="'{:,.0f}'.format(line.bonus_amount or 0.0).replace(',', '.')"/> VND</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;">Khấu trừ / phạt</td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><span t-esc="'{:,.0f}'.format(line.penalty_amount or 0.0).replace(',', '.')"/> VND</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;">Công hưởng lương</td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><span t-esc="line.payable_work_days"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;">Công bị trừ</td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><span t-esc="line.deducted_work_days"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;">Tổng phút đi muộn</td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><span t-esc="line.total_minutes_late"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;">Tổng phút về sớm</td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><span t-esc="line.total_minutes_early"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #ccc; padding: 8px;"><strong>Thực lĩnh</strong></td>
+                                        <td style="border: 1px solid #ccc; padding: 8px; text-align: end;"><strong><span t-esc="'{:,.0f}'.format(line.net_salary or 0.0).replace(',', '.')"/> VND</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

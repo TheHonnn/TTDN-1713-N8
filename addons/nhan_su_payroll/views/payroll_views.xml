@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_payroll_position_rule_tree" model="ir.ui.view">
+            <field name="name">payroll.position.rule.tree</field>
+            <field name="model">payroll.position.rule</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="chuc_vu_id"/>
+                    <field name="base_salary"/>
+                    <field name="bonus_amount"/>
+                    <field name="standard_work_days"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_payroll_position_rule_form" model="ir.ui.view">
+            <field name="name">payroll.position.rule.form</field>
+            <field name="model">payroll.position.rule</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Lương theo chức vụ</div>
+                        <group col="4" string="Thiết lập chức vụ">
+                            <field name="chuc_vu_id"/>
+                            <field name="base_salary"/>
+                            <field name="bonus_amount"/>
+                            <field name="standard_work_days"/>
+                            <field name="active"/>
+                            <field name="note" colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_payroll_penalty_rule_tree" model="ir.ui.view">
+            <field name="name">payroll.penalty.rule.tree</field>
+            <field name="model">payroll.penalty.rule</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="late_penalty_per_minute"/>
+                    <field name="early_penalty_per_minute"/>
+                    <field name="absent_penalty_per_day"/>
+                    <field name="incomplete_penalty_per_day"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_payroll_penalty_rule_form" model="ir.ui.view">
+            <field name="name">payroll.penalty.rule.form</field>
+            <field name="model">payroll.penalty.rule</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_read_only" style="font-size:25px">Mức phạt chung</div>
+                        <group col="4" string="Thiết lập phạt">
+                            <field name="name"/>
+                            <field name="late_penalty_per_minute"/>
+                            <field name="early_penalty_per_minute"/>
+                            <field name="absent_penalty_per_day"/>
+                            <field name="incomplete_penalty_per_day"/>
+                            <field name="active"/>
+                            <field name="note" colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_payroll_period_tree" model="ir.ui.view">
+            <field name="name">payroll.period.tree</field>
+            <field name="model">payroll.period</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="total_employee"/>
+                    <field name="total_salary"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_payroll_employee_line_tree" model="ir.ui.view">
+            <field name="name">payroll.employee.line.tree</field>
+            <field name="model">payroll.employee.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="nhan_vien_id"/>
+                    <field name="chuc_vu_id"/>
+                    <field name="payable_work_days"/>
+                    <field name="deducted_work_days"/>
+                    <field name="present_days"/>
+                    <field name="absent_days"/>
+                    <field name="total_minutes_late"/>
+                    <field name="total_minutes_early"/>
+                    <field name="salary_amount"/>
+                    <field name="bonus_amount"/>
+                    <field name="penalty_amount"/>
+                    <field name="net_salary"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_payroll_period_form" model="ir.ui.view">
+            <field name="name">payroll.period.form</field>
+            <field name="model">payroll.period</field>
+            <field name="arch" type="xml">
+                <form string="Kỳ lương">
+                    <header>
+                        <button name="action_generate_lines" type="object" string="Tính bảng lương" class="oe_highlight" attrs="{'invisible': [('state', '=', 'confirmed')]}"/>
+                        <button name="action_confirm" type="object" string="Chốt lương" class="btn-primary" attrs="{'invisible': [('state', '!=', 'computed')]}"/>
+                        <button name="action_send_salary_notifications" type="object" string="Gửi thông báo lương" class="btn-success" attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                        <button name="action_reset_draft" type="object" string="Về nháp" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,computed,confirmed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4" string="Thông tin kỳ lương">
+                            <field name="month"/>
+                            <field name="year"/>
+                            <field name="date_start_display" readonly="1"/>
+                            <field name="date_end_display" readonly="1"/>
+                            <field name="total_employee" readonly="1"/>
+                            <field name="total_salary" readonly="1"/>
+                        </group>
+                        <group col="4" string="Gửi thông báo lương">
+                            <field name="notification_date" attrs="{'readonly': [('state', '=', 'confirmed')]}"/>
+                            <field name="notification_auto_send"/>
+                            <field name="notification_status" readonly="1"/>
+                            <field name="notification_sent_at" readonly="1"/>
+                            <field name="notification_sent_count" readonly="1"/>
+                            <field name="notification_failed_count" readonly="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Chi tiết bảng lương">
+                                <field name="line_ids" nolabel="1" readonly="1">
+                                    <tree>
+                                        <field name="nhan_vien_id"/>
+                                        <field name="chuc_vu_id"/>
+                                        <field name="payable_work_days"/>
+                                        <field name="deducted_work_days"/>
+                                        <field name="present_days"/>
+                                        <field name="absent_days"/>
+                                        <field name="incomplete_days"/>
+                                        <field name="total_minutes_late"/>
+                                        <field name="total_minutes_early"/>
+                                        <field name="salary_amount"/>
+                                        <field name="bonus_amount"/>
+                                        <field name="penalty_amount"/>
+                                        <field name="net_salary"/>
+                                        <field name="notification_status"/>
+                                        <field name="notification_sent_at"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_payroll_period_search" model="ir.ui.view">
+            <field name="name">payroll.period.search</field>
+            <field name="model">payroll.period</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="month"/>
+                    <field name="year"/>
+                    <field name="state"/>
+                    <filter name="filter_draft" string="Nháp" domain="[('state', '=', 'draft')]"/>
+                    <filter name="filter_computed" string="Đã tính" domain="[('state', '=', 'computed')]"/>
+                    <filter name="filter_confirmed" string="Đã chốt" domain="[('state', '=', 'confirmed')]"/>
+                    <filter name="filter_notification_sent" string="Đã gửi lương" domain="[('notification_status', '=', 'sent')]"/>
+                    <filter name="filter_notification_pending" string="Chưa gửi lương" domain="[('notification_status', '!=', 'sent')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_payroll_position_rule" model="ir.actions.act_window">
+            <field name="name">Lương theo chức vụ</field>
+            <field name="res_model">payroll.position.rule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_payroll_penalty_rule" model="ir.actions.act_window">
+            <field name="name">Mức phạt chung</field>
+            <field name="res_model">payroll.penalty.rule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_payroll_period" model="ir.actions.act_window">
+            <field name="name">Bảng lương tháng</field>
+            <field name="res_model">payroll.period</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_payroll_period_search"/>
+        </record>
+
+        <menuitem id="menu_payroll_root" name="Tính lương" sequence="25"/>
+        <menuitem id="menu_payroll_period" name="Bảng lương tháng" parent="menu_payroll_root" sequence="1" action="action_payroll_period"/>
+        <menuitem id="menu_payroll_position_rule" name="Lương và thưởng chức vụ" parent="menu_payroll_root" sequence="2" action="action_payroll_position_rule"/>
+        <menuitem id="menu_payroll_penalty_rule" name="Mức phạt chung" parent="menu_payroll_root" sequence="3" action="action_payroll_penalty_rule"/>
+
+    </data>
+</odoo>

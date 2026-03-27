@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- WINDOW ACTIONS -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <record id="action_ai_attendance_event" model="ir.actions.act_window">
+            <field name="name">Lịch sử chấm công AI</field>
+            <field name="res_model">ai.attendance.event</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="ai_attendance_event_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_filter_success': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Chưa có dữ liệu chấm công AI. Hãy tạo mới hoặc chờ dữ liệu nhận diện được gửi lên.
+                </p>
+            </field>
+        </record>
+        
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- MENUS -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        
+        <!-- Main Menu -->
+        <menuitem id="menu_ai_attendance_root" name="Chấm công AI"
+                  sequence="90" web_icon="nhan_su_attendance_ai,static/description/icon.png"/>
+
+        <!-- Horizontal Menu Tabs -->
+        <menuitem id="menu_ai_attendance_events" name="Lịch sử chấm công"
+                  parent="menu_ai_attendance_root" sequence="10"
+                  action="action_ai_attendance_event"/>
+        
+    </data>
+</odoo>

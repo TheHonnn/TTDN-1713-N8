@@ -39,7 +39,13 @@ class NhanVien(models.Model):
         inverse_name="nhan_vien_id",
         string="Danh sách chứng chỉ bằng cấp"
     )
-    
+    company_id = fields.Many2one(
+        'res.company', 
+        string='Công ty', 
+        required=True, 
+        default=lambda self: self.env.company,
+        help="Nhân viên thuộc biên chế công ty nào?"
+    )
     @api.depends("ngay_sinh")
     def _compute_tinh_tuoi(self): 
         for record in self:
@@ -69,3 +75,36 @@ class NhanVien(models.Model):
                 ], limit=1)
                 record.chuc_vu_id = lich_su.chuc_vu_id.id if lich_su else False
                 record.phong_ban_id = lich_su.phong_ban_id.id if lich_su else False
+
+    def identify_face_ai(self, captured_base64):
+        # 1. Phải khởi tạo biến trước để tránh lỗi "Expected indented block"
+        employee = False 
+        
+        if not captured_base64:
+            return {'status': 'fail', 'message': 'Ảnh trống!'}
+
+        try:
+            # Giả sử hàm tìm kiếm mặt trả về một object employee
+            employee = self._search_face_match(captured_base64)
+            
+            if employee:
+                # Ghi nhận vào bảng công
+                self.env['hr.attendance'].create({
+                    'employee_id': employee.id,
+                    'check_in': fields.Datetime.now(),
+                })
+                # Lệnh return phải nằm cuối logic thành công
+                return {
+                    'status': 'success',
+                    'name': employee.ho_va_ten,
+                    'employee_id': employee.ma_dinh_danh,
+                    'check_time': fields.Datetime.now().strftime('%H:%M:%S')
+                }
+            
+            
+            return {'status': 'fail', 'message': 'Không nhận diện được!'}
+
+        except Exception as e:
+            # Lỗi hệ thống thì trả về đây
+            return {'status': 'error', 'message': str(e)}
+        

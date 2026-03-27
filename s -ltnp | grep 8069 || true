@@ -1,0 +1,4 @@
+ id | request_id | employee_id | employee_code | status | attendance_event_id | created_at 
+----+------------+-------------+---------------+--------+---------------------+------------
+(0 rows)
+

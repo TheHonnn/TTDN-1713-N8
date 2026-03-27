@@ -1,0 +1,12 @@
+---PAYROLL_PERIODS---
+PERIOD|4|Bảng lương 4/2026|4|2026|draft|0|0.0
+PERIOD|2|Bảng lương 1/2026|1|2026|computed|1|4000000.0
+---NHAN_VIEN---
+NV|1|001|Nguyễn Sỹ Quang Huy||Nhân viên Kỹ Thuật
+NV|2|002|Nguyễn Thế Hạnh||Nhân viên Kỹ Thuật
+NV|3|003|Bùi Thế Hoàng|HC 1 (8:00 - 16:30)|Kế Toán Trưởng
+NV|4|004|Le Trang||Trưởng Phòng IT
+---HR_EMPLOYEE---
+HR|2|Nguyễn Sỹ Quang Huy|001|
+---APRIL_DAILY_SHEETS---
+---APRIL_ATTENDANCE---

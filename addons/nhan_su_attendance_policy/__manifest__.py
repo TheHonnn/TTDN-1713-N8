@@ -1,0 +1,26 @@
+{
+    'name': 'Nhân sự - Luật Chấm Công',
+    'version': '1.0',
+    'summary': 'Thiết lập ca làm việc và quy định đi muộn/về sớm',
+    'author': 'TTDN Team',
+    'depends': ['nhan_su', 'nhan_su_attendance_ai'], 
+    'external_dependencies': {
+        'python': [],
+    },
+    'data': [
+        'security/ir.model.access.csv',
+        'views/attendance_rule_views.xml',
+        'views/attendance_rule_import_views.xml',
+        'views/attendance_rule_import_review_wizard_views.xml',
+        'views/attendance_exception_views.xml',
+        'views/attendance_holiday_views.xml',
+        'views/shift_assignment_wizard_views.xml',
+        'views/hr_employee_views.xml',
+        'views/nhan_vien_views.xml',
+        'views/daily_sheet_views.xml',
+    ],
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+    'license': 'LGPL-3',
+}
